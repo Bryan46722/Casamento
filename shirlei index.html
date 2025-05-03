@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirmação de Presença - Casamento</title>
   <style>
     body {
@@ -13,118 +13,157 @@
       text-align: center;
       color: #222;
     }
+
     h1 {
       margin-top: 40px;
       font-size: 2rem;
     }
+
     .pix-container {
       background: white;
       margin: 30px auto;
       padding: 30px;
-      max-width: 400px;
+      max-width: 320px;
       border-radius: 16px;
-      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
     }
-    .pix-container p {
-      margin-top: 0;
-      font-size: 1rem;
-      margin-bottom: 20px;
-    }
-    img {
-      max-width: 100%;
+
+    .pix-container img {
+      width: 180px;
+      margin: 15px 0;
       border-radius: 12px;
-      margin-bottom: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
     }
-    button, input[type="text"] {
+
+    .pix-container button {
+      background-color: #2e8b57;
+      color: white;
       border: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 1rem;
-      margin-top: 15px;
-    }
-    #copyBtn {
-      background-color: #198754;
-      color: white;
+      padding: 10px 20px;
+      font-size: 15px;
+      border-radius: 8px;
       cursor: pointer;
+      margin-top: 10px;
     }
-    #confirmBtn {
-      background-color: #781c1c;
-      color: white;
-      margin-top: 20px;
-      cursor: pointer;
+
+    .pix-container button:hover {
+      background-color: #256c45;
     }
-    #mapBtn {
-      background-color: #1d4ed8;
-      color: white;
-      margin-top: 20px;
-      cursor: pointer;
-    }
-    #contador {
+
+    .confirm-section {
       margin-top: 30px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 280px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .confirmar-btn {
+      background-color: #6d1d1d;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      font-size: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .confirmar-btn:hover {
+      background-color: #4a1414;
+    }
+
+    .local-btn {
+      background-color: #0056d6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .local-btn:hover {
+      background-color: #003f9a;
+    }
+
+    .contador {
+      margin-top: 40px;
       font-weight: bold;
-      font-size: 1.1rem;
     }
   </style>
 </head>
 <body>
   <h1>Quer celebrar conosco este momento especial?</h1>
+
   <div class="pix-container">
-    <p>Se você quiser nos presentear com uma contribuição simbólica, aqui está nosso Pix:</p>
-    <img src="pix.png" alt="QR Code Pix">
-    <button id="copyBtn" onclick="copiarPix()">Copiar chave Pix</button>
+    <p>Se desejar nos presentear com um gesto simbólico, aqui está nossa chave Pix — com carinho e gratidão ❤️</p>
+    <img src="pix.png.jpg" alt="QR Code Pix" />
+    <br />
+    <button onclick="copiarChavePix()">Copiar chave Pix</button>
   </div>
 
   <p>Sua presença é o maior presente. Mas se desejar contribuir com carinho, agradecemos de coração.</p>
 
-  <input type="text" id="nome" placeholder="Digite seu nome" />
-  <br />
-  <button id="confirmBtn" onclick="confirmarPresenca()">Confirmar Presença</button>
+  <div class="confirm-section">
+    <input type="text" id="nome" placeholder="Digite seu nome" />
+    <br />
+    <button class="confirmar-btn" onclick="confirmarPresenca()">Confirmar Presença</button>
+    <p id="contador">Confirmados: 0</p>
+    <button class="local-btn" onclick="verLocal()">Ver local da cerimônia</button>
+  </div>
 
-  <p>Confirmados: <span id="contadorConfirmados">0</span></p>
-
-  <button id="mapBtn" onclick="window.open('https://maps.app.goo.gl/o7k9dKkDdHZAz7nV7', '_blank')">
-    Ver local da cerimônia
-  </button>
-
-  <p id="contador"></p>
+  <p class="contador" id="contadorDias"></p>
 
   <script>
-    let confirmados = 0;
+    let contador = 0;
 
-    function copiarPix() {
-      navigator.clipboard.writeText("00020126330014br.gov.bcb.pix0111041010179645204000053039865802BR5924SHIRLEI ROBERTA DE SOUZA6008BLUMENAU62070503***6304FE37");
+    function copiarChavePix() {
+      const chave = "suachavepix@exemplo.com";
+      navigator.clipboard.writeText(chave);
       alert("Chave Pix copiada com sucesso!");
     }
 
     function confirmarPresenca() {
-      const nome = document.getElementById('nome').value.trim();
-      if (!nome) {
-        alert("Por favor, digite seu nome antes de confirmar.");
+      const nome = document.getElementById("nome").value.trim();
+      if (nome === "") {
+        alert("Por favor, digite seu nome.");
         return;
       }
-      confirmados++;
-      document.getElementById("contadorConfirmados").innerText = confirmados;
 
-      const mensagem = encodeURIComponent("Estou confirmando minha presença no casamento. Meu nome é: " + nome);
-      window.location.href = `https://wa.me/12392462144?text=${mensagem}`;
+      contador++;
+      document.getElementById("contador").textContent = "Confirmados: " + contador;
+
+      const numero = "12392462144"; // Sem 55
+      const mensagem = `Olá! Estou confirmando presença no casamento. Meu nome é ${nome}.`;
+      const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
     }
 
-    const dataCasamento = new Date("2025-11-08T18:00:00").getTime();
-    const timer = setInterval(() => {
-      const agora = new Date().getTime();
-      const distancia = dataCasamento - agora;
+    function verLocal() {
+      window.open("https://www.google.com/maps/place/Artsul+Eventos,+Rua+Luiz+Maske,+1070+%E2%80%93+Itoupavazinha,+Blumenau/", "_blank");
+    }
 
-      const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
-      const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+    function atualizarContadorDias() {
+      const casamento = new Date("2025-11-15T18:00:00");
+      const agora = new Date();
+      const diff = casamento - agora;
 
-      document.getElementById("contador").innerText = `Faltam ${dias} dias, ${horas} horas e ${minutos} minutos para o casamento.`;
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
 
-      if (distancia < 0) {
-        clearInterval(timer);
-        document.getElementById("contador").innerText = "O grande dia chegou!";
-      }
-    }, 1000);
+      document.getElementById("contadorDias").textContent = `Faltam ${dias} dias, ${horas} horas e ${minutos} minutos para o casamento.`;
+    }
+
+    atualizarContadorDias();
+    setInterval(atualizarContadorDias, 60000);
   </script>
 </body>
 </html>

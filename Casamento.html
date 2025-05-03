@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presente com Amor</title>
+  <style>
+    body {
+      background: #FDF6EC;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 50px;
+      color: #333;
+    }
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    .copiar {
+      background-color: #00C47E;
+      color: white;
+    }
+    .confirmar {
+      background-color: #461616;
+      color: white;
+    }
+    p {
+      margin-top: 30px;
+      font-size: 16px;
+    }
+    .contador {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>💌 Quer nos ajudar com amor?</h1>
+
+  <img src="qrcode.png" alt="QR Code Pix" width="200"><br><br>
+
+  <button class="copiar" onclick="copiarPix()">📋 Copiar chave Pix</button>
+
+  <p>Sua presença é o maior presente, mas se quiser contribuir com carinho, agradecemos de coração 💛</p>
+
+  <input type="text" value="00020126330014br.gov.bcb.pix0111041010179645204000053039865802BR5924SHIRLEI ROBERTA DE SOUZA6008BLUMENAU62070503***6304FE37" id="chave" readonly style="position:absolute; left:-9999px;">
+
+  <br><br>
+
+  <button class="confirmar" onclick="confirmarPresenca()">✅ Estou confirmado!</button>
+  <div class="contador">Confirmados: <span id="contador">0</span></div>
+
+  <script>
+    function copiarPix() {
+      const input = document.getElementById("chave");
+      input.select();
+      document.execCommand("copy");
+      alert("Chave Pix copiada!");
+    }
+
+    function confirmarPresenca() {
+      let contador = localStorage.getItem('confirmados') || 0;
+      contador = parseInt(contador) + 1;
+      localStorage.setItem('confirmados', contador);
+      document.getElementById("contador").innerText = contador;
+      alert("Obrigado pela confirmação! 💖");
+    }
+
+    // Mostrar valor salvo no carregamento
+    window.onload = () => {
+      const contador = localStorage.getItem('confirmados') || 0;
+      document.getElementById("contador").innerText = contador;
+    }
+  </script>
+</body>
+</html>

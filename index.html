@@ -1,85 +1,130 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Presente com Amor</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Confirmação de Presença - Casamento</title>
   <style>
     body {
-      background: #FDF6EC;
-      font-family: sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff7ef;
+      margin: 0;
+      padding: 0;
       text-align: center;
-      padding: 50px;
-      color: #333;
+      color: #222;
     }
     h1 {
-      font-size: 32px;
+      margin-top: 40px;
+      font-size: 2rem;
+    }
+    .pix-container {
+      background: white;
+      margin: 30px auto;
+      padding: 30px;
+      max-width: 400px;
+      border-radius: 16px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+    }
+    .pix-container p {
+      margin-top: 0;
+      font-size: 1rem;
       margin-bottom: 20px;
     }
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 15px;
+    }
+    button, input[type="text"] {
       border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin: 10px;
-    }
-    .copiar {
-      background-color: #00C47E;
-      color: white;
-    }
-    .confirmar {
-      background-color: #461616;
-      color: white;
-    }
-    p {
-      margin-top: 30px;
-      font-size: 16px;
-    }
-    .contador {
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 1rem;
       margin-top: 15px;
+    }
+    #copyBtn {
+      background-color: #198754;
+      color: white;
+      cursor: pointer;
+    }
+    #confirmBtn {
+      background-color: #781c1c;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    #mapBtn {
+      background-color: #1d4ed8;
+      color: white;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    #contador {
+      margin-top: 30px;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 1.1rem;
     }
   </style>
 </head>
 <body>
-  <h1>💌 Quer nos ajudar com amor?</h1>
+  <h1>Quer celebrar conosco este momento especial?</h1>
+  <div class="pix-container">
+    <p>Se você quiser nos presentear com uma contribuição simbólica, aqui está nosso Pix:</p>
+    <img src="pix.png" alt="QR Code Pix">
+    <button id="copyBtn" onclick="copiarPix()">Copiar chave Pix</button>
+  </div>
 
-  <img src="qrcode.png" alt="QR Code Pix" width="200"><br><br>
+  <p>Sua presença é o maior presente. Mas se desejar contribuir com carinho, agradecemos de coração.</p>
 
-  <button class="copiar" onclick="copiarPix()">📋 Copiar chave Pix</button>
+  <input type="text" id="nome" placeholder="Digite seu nome" />
+  <br />
+  <button id="confirmBtn" onclick="confirmarPresenca()">Confirmar Presença</button>
 
-  <p>Sua presença é o maior presente, mas se quiser contribuir com carinho, agradecemos de coração 💛</p>
+  <p>Confirmados: <span id="contadorConfirmados">0</span></p>
 
-  <input type="text" value="00020126330014br.gov.bcb.pix0111041010179645204000053039865802BR5924SHIRLEI ROBERTA DE SOUZA6008BLUMENAU62070503***6304FE37" id="chave" readonly style="position:absolute; left:-9999px;">
+  <button id="mapBtn" onclick="window.open('https://maps.app.goo.gl/o7k9dKkDdHZAz7nV7', '_blank')">
+    Ver local da cerimônia
+  </button>
 
-  <br><br>
-
-  <button class="confirmar" onclick="confirmarPresenca()">✅ Estou confirmado!</button>
-  <div class="contador">Confirmados: <span id="contador">0</span></div>
+  <p id="contador"></p>
 
   <script>
+    let confirmados = 0;
+
     function copiarPix() {
-      const input = document.getElementById("chave");
-      input.select();
-      document.execCommand("copy");
-      alert("Chave Pix copiada!");
+      navigator.clipboard.writeText("00020126330014br.gov.bcb.pix0111041010179645204000053039865802BR5924SHIRLEI ROBERTA DE SOUZA6008BLUMENAU62070503***6304FE37");
+      alert("Chave Pix copiada com sucesso!");
     }
 
     function confirmarPresenca() {
-      let contador = localStorage.getItem('confirmados') || 0;
-      contador = parseInt(contador) + 1;
-      localStorage.setItem('confirmados', contador);
-      document.getElementById("contador").innerText = contador;
-      alert("Obrigado pela confirmação! 💖");
+      const nome = document.getElementById('nome').value.trim();
+      if (!nome) {
+        alert("Por favor, digite seu nome antes de confirmar.");
+        return;
+      }
+      confirmados++;
+      document.getElementById("contadorConfirmados").innerText = confirmados;
+
+      const mensagem = encodeURIComponent("Estou confirmando minha presença no casamento. Meu nome é: " + nome);
+      window.location.href = `https://wa.me/12392462144?text=${mensagem}`;
     }
 
-    // Mostrar valor salvo no carregamento
-    window.onload = () => {
-      const contador = localStorage.getItem('confirmados') || 0;
-      document.getElementById("contador").innerText = contador;
-    }
+    const dataCasamento = new Date("2025-11-08T18:00:00").getTime();
+    const timer = setInterval(() => {
+      const agora = new Date().getTime();
+      const distancia = dataCasamento - agora;
+
+      const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+
+      document.getElementById("contador").innerText = `Faltam ${dias} dias, ${horas} horas e ${minutos} minutos para o casamento.`;
+
+      if (distancia < 0) {
+        clearInterval(timer);
+        document.getElementById("contador").innerText = "O grande dia chegou!";
+      }
+    }, 1000);
   </script>
 </body>
 </html>
